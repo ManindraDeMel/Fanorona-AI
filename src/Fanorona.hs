@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass #-}
 {-|
 Module      : Fanorona
 Description : The logic and rules of the Fanorona board game
@@ -200,7 +202,7 @@ neighbourhood state loc = filter (onBoard state) (map (operate (+) loc) neighbou
                      , Location (-1) 0                    , Location 1 0
                      , Location (-1) (-1), Location 0 (-1), Location 1 (-1)
                      ]
-        oddParity (Location a b) = odd (a + b) 
+        oddParity (Location a b) = odd (a + b)
 
 -- | Given a type of Square and a GameState, return the Locations of each
 -- of those squares in the given gameState.
