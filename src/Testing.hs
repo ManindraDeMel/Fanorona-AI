@@ -93,19 +93,3 @@ runTests = go 0 where
         putStrLn (spaces ++ msg)
         traverse_ (go (indent + 2)) tests
 
--- Custom tests
-
--- *AI> heuristicHelper [Piece Player1, Empty, Piece Player1, Empty] Player1 1 4 5
--- 4
--- *AI> heuristicHelper [Piece Player1, Empty, Piece Player1, Empty] Player1 2 4 5
--- 5
--- *AI> heuristicHelper [Piece Player1, Empty, Piece Player1, Empty] Player1 3 4 5
--- 5
--- *AI> heuristicHelper [Piece Player1, Empty, Piece Player1, Empty] Player1 4 4 5
--- 5
--- *AI> heuristicHelper [Piece Player1, Empty, Piece Player1, Empty] Player1 5 4 5
--- 4
--- *AI> heuristicHelper [Piece Player2, Empty, Piece Player1, Empty] Player1 5 4 5
--- 0
--- *AI> heuristicHelper [Piece Player2, Empty, Piece Player1, Empty] Player1 3 4 5
--- 1

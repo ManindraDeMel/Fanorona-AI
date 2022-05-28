@@ -35,11 +35,11 @@ firstLegalMove course state = case applyMove course Pass state of
   Nothing -> head (legalMoves state)
   _ -> Pass
 
-miniMax :: GameState -> Int -> Move 
+miniMax :: GameState -> Int -> Move -- minimax parent function
 miniMax (State (GameOver _) _ _ _ _) _ = error"The program shouldn't pass a gameover state to the AI"
 miniMax g@(State (Turn p) _ _ _ _) n = fst $ miniMaxH (Pass, Just g) p n n -- abitary initial arguments that are overwritten when searching through the tree
 
-miniMaxH :: (Move, Maybe GameState) -> Player -> Int -> Int -> (Move, Int)
+miniMaxH :: (Move, Maybe GameState) -> Player -> Int -> Int -> (Move, Int) -- minimax
 miniMaxH (_, Nothing) _ _ _ = error"Should not be called"
 miniMaxH (m, Just (State (GameOver (Winner p)) _ _ _ _)) op _ _ = if op == p then (m, 10000) else (m, -100000) -- give reward for winning and punish for losing
 miniMaxH (m, Just (State (GameOver Draw) _ _ _ _)) _ _ _ = (m, 0) -- preferably don't draw, try to win. Thus non-negative and not positive either
@@ -59,7 +59,7 @@ miniMaxH (m, Just g@(State (Turn p) _ _ _ _)) originalPlayer originalDepth depth
         where minElem = (minimum . map snd) li
 miniMaxH _ _ _ _ = error"Should not match"
 
-nextPossibleGameStates :: GameState -> [(Move, Maybe GameState)]
+nextPossibleGameStates :: GameState -> [(Move, Maybe GameState)] -- get all the next gamestates and the moves associated to get to that gamestate
 nextPossibleGameStates g
   | not (null captureStates) = captureStates -- if there are capturing moves we must do them
   | otherwise = nextGameState' (Just g) legalMoves -- otherwise attempt a legal move (rare occourance)
@@ -76,7 +76,7 @@ nextGameState' a@(Just g@(State (Turn p) _ _ _ _ )) f = [(x, applyMove COMP1130 
   where
     getPlayerSpecificMoves = movesByPlayer p g f
 
-movesByPlayer :: Player -> GameState -> (GameState -> [Move]) -> [Move]
+movesByPlayer :: Player -> GameState -> (GameState -> [Move]) -> [Move] -- filter out moves based on the player passed
 movesByPlayer p g f = filter (comparePoints allLocations) possibleMoves
   where
     possibleMoves = f g -- legalMoves or captures can be used here
@@ -86,7 +86,7 @@ movesByPlayer p g f = filter (comparePoints allLocations) possibleMoves
     comparePoints l (Move _ a _) = a `elem` l
     comparePoints _ Pass = False
 
-heuristic :: GameState -> Int
+heuristic :: GameState -> Int -- Heuristic based on advantagous position (centre of the board) and the difference between the pieces
 heuristic = heuristicFunction 0
 
 heuristicFunction :: Int -> GameState -> Int
