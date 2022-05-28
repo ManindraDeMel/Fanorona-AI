@@ -45,7 +45,7 @@ miniMaxH (m, Just (State (GameOver (Winner p)) _ _ _ _)) op _ _ = if op == p the
 miniMaxH (m, Just (State (GameOver Draw) _ _ _ _)) _ _ _ = (m, 0) -- preferably don't draw, try to win. Thus non-negative and not positive either
 miniMaxH (m, Just g) _ _ 0 = (m, heuristic g)
 miniMaxH (m, Just g@(State (Turn p) _ _ _ _)) originalPlayer originalDepth depth
-  | (p == originalPlayer) && (originalDepth == depth) =  maxBySnd nextGameStates
+  | (p == originalPlayer) && (originalDepth == depth) = maxBySnd nextGameStates
   | (p /= originalPlayer) && (originalDepth == depth) = minBySnd nextGameStates
   | (p == originalPlayer) && (originalDepth /= depth) = (m, (maximum . map snd) nextGameStates)
   | (p /= originalPlayer) && (originalDepth /= depth) = (m, (minimum . map snd) nextGameStates)
